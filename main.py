@@ -164,7 +164,6 @@ def News(message):
         if message.text == 'Назад':
 
             markup = types.ReplyKeyboardMarkup(resize_keyboard=True)
-            markup_mess = types.InlineKeyboardMarkup()
             button_news = types.KeyboardButton('Новости')
             button_categories = types.KeyboardButton('Категории')
             button_sub = types.KeyboardButton('Подписки')
