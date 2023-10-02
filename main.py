@@ -159,6 +159,8 @@ def News(message):
                 top_headlines = newsapi.get_top_headlines(category=category_name, language='ru')
                 bot.send_message(message.from_user.id,
                                  f'{top_headlines["articles"][0]["title"]}\n {top_headlines["articles"][0]["url"]}')
+                bot.send_message(message.from_user.id,
+                                 f'{top_headlines["articles"][1]["title"]}\n {top_headlines["articles"][1]["url"]}')
 
         if message.text == 'Назад':
 
