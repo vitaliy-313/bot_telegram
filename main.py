@@ -1,5 +1,4 @@
 import telebot
-import sqlite3
 from newsapi import NewsApiClient
 from telebot import types
 from function import *
@@ -22,7 +21,7 @@ def start(message):
     button_news = types.KeyboardButton('Новости')
     button_categories = types.KeyboardButton('Категории')
     button_sub = types.KeyboardButton('Подписки')
-    markup.add(button_news,button_categories,button_sub)
+    markup.add(button_news, button_categories, button_sub)
     if user==None:
         cursor.execute('INSERT INTO users(tg_id) VALUES (?)', (user_id,))
         connect.commit()
@@ -75,9 +74,9 @@ def News(message):
                 cat_id = cursor.execute('''SELECT id FROM categories WHERE name = ? ; ''', (name_sub,)).fetchall()
                 cursor.execute('''INSERT INTO subscribes ('user_id', 'category_id') VALUES (?, ?) ''',(id, cat_id[0][0]))
                 connect.commit()
-                bot.reply_to(message, 'Вы подписаны')
+                bot.reply_to(message, 'Вы подписались')
             else:
-                bot.reply_to(message, 'Вы уже подписаны')
+                bot.reply_to(message, 'У вас уже есть данная подписка')
 
     if message.chat.type == 'private':
         if message.text == 'Подписки':
