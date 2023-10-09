@@ -14,23 +14,25 @@ bot = telebot.TeleBot("6477893231:AAHgIVCKUF1QZqjKkG0sYBc3FMiRzE_LCyY", parse_mo
 def start(message):
 
     # ищем и добавляем  пользователя
-    user_id = message.from_user.id
-    cursor.execute("SELECT id, tg_id FROM users WHERE tg_id=?", (user_id,))
-    user = cursor.fetchone()
+    user_id =[message.chat.id]
+    user = cursor.execute('SELECT * FROM users WHERE tg_id = ?;', (user_id)).fetchall()
+
+
+
+
     markup = types.ReplyKeyboardMarkup(resize_keyboard=True)
     button_news = types.KeyboardButton('Новости')
     button_categories = types.KeyboardButton('Категории')
     button_sub = types.KeyboardButton('Подписки')
     markup.add(button_news, button_categories, button_sub)
-    if user==None:
-        cursor.execute('INSERT INTO users(tg_id) VALUES (?)', (user_id,))
+    if not user:
+        cursor.execute('''INSERT INTO users('tg_id') VALUES (?)''', user_id)
         connect.commit()
         bot.reply_to(message, "Вы успешно зарегистрировались)", reply_markup=markup)
         print('Добавил в базу')
     else:
         bot.reply_to(message, "Вы уже зарегистрированы)", reply_markup=markup)
         print('Уже в базе')
-    #     создаем клавиатуру
 
 
 @bot.message_handler(content_types=['text'])
