@@ -16,7 +16,7 @@ resull = cursor.execute('''
  "categories"
  ("id" INTEGER NOT NULL,
  "name" TEXT NOT NULL,
-    "value" TEXT NOT NULL,
+ "value" TEXT NOT NULL,
  primary key("id" AUTOINCREMENT)
  )''')
 
@@ -28,14 +28,14 @@ resull = cursor.execute('''
  FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
  FOREIGN KEY (category_id) REFERENCES categories(id) ON DELETE CASCADE
  )''')
-connect.commit()
-cursor.execute('''INSERT INTO categories (name) VALUES("sports")''')
-cursor.execute('''INSERT INTO categories (name) VALUES("business")''')
-cursor.execute('''INSERT INTO categories (name) VALUES("entertainment")''')
-cursor.execute('''INSERT INTO categories (name) VALUES("general")''')
-cursor.execute('''INSERT INTO categories (name) VALUES("technology")''')
+
 connect.commit()
 
+category = cursor.execute(''' SELECT * from categories''').fetchone()
+arr = [["спорт", "sports"], ["бизнес", "business"], ["развлечения", "entertainment"], ["главная", "general"], ["технологии", "technology"]]
+for i in arr:
+    cursor.execute('''INSERT INTO categories (name, value) VALUES(?, ?)''',(i[0],i[1]))
+    connect.commit()
 
 def searchUserCategory(user_id):
     connect = sqlite3.connect('dbase.db', check_same_thread=False)
