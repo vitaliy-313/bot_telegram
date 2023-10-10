@@ -3,37 +3,38 @@ import sqlite3
 connect = sqlite3.connect('dbase.db', check_same_thread=False)
 cursor = connect.cursor()
 
-# resull = cursor.execute('''
-# CREATE TABLE IF NOT EXISTS
-# "users"
-# ("id" INTEGER NOT NULL,
-# "tg_id" INTEGER NOT NULL,
-# primary key("id" AUTOINCREMENT)
-# )''')
-#
-# resull = cursor.execute('''
-# CREATE TABLE IF NOT EXISTS
-# "categories"
-# ("id" INTEGER NOT NULL,
-# "name" TEXT NOT NULL,
-# primary key("id" AUTOINCREMENT)
-# )''')
-#
-# resull = cursor.execute('''
-# CREATE TABLE IF NOT EXISTS
-# "subscribes"
-# ("user_id" INTEGER NOT NULL,
-# "category_id" INTEGER NOT NULL,
-# FOREIGN KEY (id_user) REFERENCES users(id) ON DELETE CASCADE,
-# FOREIGN KEY (id_category) REFERENCES categories(id) ON DELETE CASCADE
-# )''')
+resull = cursor.execute('''
+ CREATE TABLE IF NOT EXISTS
+ "users"
+ ("id" INTEGER NOT NULL,
+ "tg_id" INTEGER NOT NULL,
+ primary key("id" AUTOINCREMENT)
+ )''')
+
+resull = cursor.execute('''
+ CREATE TABLE IF NOT EXISTS
+ "categories"
+ ("id" INTEGER NOT NULL,
+ "name" TEXT NOT NULL,
+    "value" TEXT NOT NULL,
+ primary key("id" AUTOINCREMENT)
+ )''')
+
+resull = cursor.execute('''
+ CREATE TABLE IF NOT EXISTS
+ "subscribes"
+ ("user_id" INTEGER NOT NULL,
+ "category_id" INTEGER NOT NULL,
+ FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
+ FOREIGN KEY (category_id) REFERENCES categories(id) ON DELETE CASCADE
+ )''')
 connect.commit()
-# cursor.execute('''INSERT INTO categories (name) VALUES("sports")''')
-# cursor.execute('''INSERT INTO categories (name) VALUES("business")''')
-# cursor.execute('''INSERT INTO categories (name) VALUES("entertainment")''')
-# cursor.execute('''INSERT INTO categories (name) VALUES("general")''')
-# cursor.execute('''INSERT INTO categories (name) VALUES("technology")''')
-# connect.commit()
+cursor.execute('''INSERT INTO categories (name) VALUES("sports")''')
+cursor.execute('''INSERT INTO categories (name) VALUES("business")''')
+cursor.execute('''INSERT INTO categories (name) VALUES("entertainment")''')
+cursor.execute('''INSERT INTO categories (name) VALUES("general")''')
+cursor.execute('''INSERT INTO categories (name) VALUES("technology")''')
+connect.commit()
 
 
 def searchUserCategory(user_id):
